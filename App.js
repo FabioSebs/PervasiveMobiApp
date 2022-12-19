@@ -30,14 +30,18 @@ export default function App() {
 
   // Makes New Array with Translated Tweets and Toggles State
   const translateTweet = () => {
-    tweets.forEach((tweet) => {
-      axios.post("http://localhost:3000/translate", {
-        text: tweet
-      }).then(data => {
-        console.log(data.data.translation)
-      }).catch(err => console.log(err))
-    })
-    // setShowTranslated(!showTranslated)
+    const res = []
+    if (showTranslated == false) {
+      tweets.forEach((tweet) => {
+        axios.post("https://translationapi.onrender.com/translate", {
+          text: tweet
+        }).then(data => {
+          res.push(data.data.translation)
+        }).catch(err => console.log(err))
+      })
+      setEnTweets(res)
+    }
+    setShowTranslated(!showTranslated)
   }
 
   // Returns Correct State Based on Translated Boolean State
